@@ -37,13 +37,18 @@ if url and tag_name:
     # Tạo một từ điển chứa các thuộc tính truyền vào
     attributes_dict = {}
     if attributes:
-        # Tách các cặp key-value từ chuỗi thuộc tính
-        attributes_list = attributes.split(',')
-        for item in attributes_list:
-            # Tách key và value từ cặp key-value
-            key, value = item.split(':')
-            # Thêm key-value vào từ điển thuộc tính
-            attributes_dict[key.strip()] = value.strip()
+        # Tách chuỗi thuộc tính thành các cặp key-value
+        parts = [part.strip() for part in attributes.split(",")]
+        for part in parts:
+            # Tách key-value thành key và value
+            key_value = part.split(":")
+            if len(key_value) < 2:
+                st.warning(f"Thuộc tính không đúng định dạng: {part}")
+            else:
+                key = key_value[0].strip()
+                value = key_value[1].strip()
+                attributes_dict[key] = value
+
 
     # Lấy dữ liệu từ trang web
     data = get_data(url, tag_name, attributes_dict)
