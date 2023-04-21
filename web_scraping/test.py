@@ -16,25 +16,40 @@ page_results = page_soup.findAll(
 containers = page_results
 # print(page_results)
 # print(containers)
+filename = 'products.csv'
+f = open(filename, 'w')
 
+headers = "brand,title,price,ship\n"
+
+f.write(headers)
 
 if containers:
     for container in containers:
         item_brand = container.find('a', {'class': 'item-brand'})
         if item_brand:
             item = item_brand.img['title']
-            print('item: ' + item)
+            #print('item: ' + item)
         else:
             print('Brand not found')
-        item_title = container.find('div', {'class': 'item-title'})
+        item_title = container.find('a', {'class': 'item-title'})
         title = item_title.text if item_title else "Khong co ten san pham"
         print('title: ' + title)
-        price_ship = container.find('div', {'class': 'price-ship'})
-        ship = price_ship.text if price_ship else "Khong free ship"
-        print()
-        price_current = container.find('div', {'class': 'price-current'})
-        price = price_current.strong
 
+        price_ship = container.find('li', {'class': 'price-ship'})
+        ship = price_ship.text if price_ship else 'NULL'
+        print('ship: ' + ship)
+
+        price_current = container.find('li', {'class': 'price-current'})
+        if price_current:
+            price = price_current.strong
+            if price:
+                item_price = price.get_text()
+                print(item_price)
+            else:
+                print('error: price')
+
+        f.write(f"{item } ,{title},{item_price} ,{ship}\n")
+    f.close()
 
 else:
     print('No containers found.')

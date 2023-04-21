@@ -49,7 +49,7 @@ if url and tag_name:
                 value = key_value[1].strip()
                 attributes_dict[key] = value
 
-
+                
     # Lấy dữ liệu từ trang web
     data = get_data(url, tag_name, attributes_dict)
 
