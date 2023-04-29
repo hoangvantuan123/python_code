@@ -12,6 +12,7 @@ def get_data(url, tags_attributes):
         r = requests.get(url)
         if r.status_code == 200:
             soup = BeautifulSoup(r.content, 'html.parser')
+            st.code(soup)
             data_list = []
             # tạo đối tượng data_dict với kiểu dữ liệu là OrderedDict
             data_dict = OrderedDict()
@@ -69,6 +70,8 @@ while True:
 if url and tags_attributes:
     # Lấy dữ liệu từ trang web
     data = get_data(url, tags_attributes)
+    st.code('url: ' + url)
+    st.code(tags_attributes)
 
     # Kiểm tra dữ liệu trả về
     if data:
